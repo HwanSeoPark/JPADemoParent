@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.pppjpademo</groupId>
+  <artifactId>JPADemoParent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>ch01</module>
+    <module>ch02</module>
+	<module>ch03</module>
+	<module>ch04</module>
+	<module>ch05</module>
+	<module>ch06</module>
+	<module>ch07</module>
+	<module>ch08</module>
+	<module>ch09</module>
+	<module>ch10</module>
+	<module>ch11</module>
+	<module>ch12</module>
+	<module>ch13</module>
+  </modules>
+</project>
