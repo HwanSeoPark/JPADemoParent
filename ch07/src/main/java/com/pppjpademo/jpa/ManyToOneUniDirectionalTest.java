@@ -33,6 +33,10 @@ public class ManyToOneUniDirectionalTest {
                 em.persist(item);
             }
 
+            // new OrderItem(product, i) 대입만 했을 뿐인데
+            // @ManyToOne, @JoinColumn 어노테이션으로 인해 Hibernate가 이걸 보고
+            // 포리진 키를 만들어버림
+            
             tx.commit();
         } finally {
             em.close();
@@ -50,10 +54,14 @@ public class ManyToOneUniDirectionalTest {
             OrderItem item = em.createQuery("select i from OrderItem i", OrderItem.class)
                     .setMaxResults(1)
                     .getSingleResult();
+            // Lazy 이기 때문에 OrderItem만 select 정보를 가져옴
 
+            // Product를 null로 두지 않고 HibernateProxy로 만들어서 씀
             System.out.println("수량: " + item.getQuantity());
             System.out.println("🕐 상품명 조회 전 - SQL 없음");
-            System.out.println("상품명: " + item.getProduct().getName()); // 여기서 SQL 발생
+            System.out.println("상품명: " + item.getProduct().getName());
+            // 처음으로 Product를 사용 여기서 SQL 발생
+            // Lazy로 인해 이때 Product 생성
 
             tx.commit();
         } finally {
@@ -61,7 +69,12 @@ public class ManyToOneUniDirectionalTest {
         }
     }
 
-    // 🔹 N+1 문제 유도 테스트
+    // 🔹 N+1 문제 유도 테스트 (Lazy Fetch로 인해 나는 문제)
+    // fm 으로는 1+N이라 한다!!
+    // 1 : select * from orderItem
+    // 100(N,횟수) : select * 
+    //		from product
+    //		where orderItem.product_id = product.id
     private static void testNPlusOneProblem() {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -72,6 +85,9 @@ public class ManyToOneUniDirectionalTest {
             List<OrderItem> items = em.createQuery("select i from OrderItem i", OrderItem.class)
                     .getResultList();
 
+            // OrderItem을 100개 만드는데 100개의 쿼리를 하는데
+            // Lazy fetch로 인해 Product도 100번의 쿼리를 날림
+            // 이게 N + 1 문제
             int count = 0;
             for (OrderItem item : items) {
                 count++;
@@ -93,6 +109,7 @@ public class ManyToOneUniDirectionalTest {
             System.out.println("\n✅ N+1 문제 해결 - Fetch Join 사용");
 
             // 🔹 Product까지 한 번에 조인하여 가져옴
+            // 이때의 Product는 프록시가 아님!! 진짜를 가져옴
             List<OrderItem> items = em.createQuery(
                 "select i from OrderItem i join fetch i.product", OrderItem.class)
                 .getResultList();

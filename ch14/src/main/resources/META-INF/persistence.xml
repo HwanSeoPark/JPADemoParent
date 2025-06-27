@@ -19,9 +19,13 @@
             <property name="hibernate.id.new_generator_mappings" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="create" />
             
-            <!-- 기본 매핑 이름 -->
+            <!-- ✅ 배치 처리 관련 핵심 설정 -->
+            <property name="hibernate.jdbc.batch_size" value="100"/>
+            <property name="hibernate.order_inserts" value="true"/>
+            <property name="hibernate.order_updates" value="true"/>
+            
             <property name="hibernate.generate_statistics" value="true" />
-
+            <!-- 기본 매핑 이름 -->
             <!-- <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />  -->
 
         </properties>

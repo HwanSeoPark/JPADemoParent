@@ -16,6 +16,7 @@ public class OrderItem {
 
     private int quantity;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false) // OrderItem 테이블의 FK
     /*
@@ -31,7 +32,11 @@ public class OrderItem {
        references Product
      */
     private Product product;
-
+    // OrderItem에 product 테이블의 포리진 키를 만들껀데 private 이다
+    // 값은 절대 null 일수없다 -> 무결성 제약 조건 위배
+    // OrderItem 만 Product 엔티티 클래스를 참조하고 있음
+    // -> 단방향이라 한다
+    
     public OrderItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;

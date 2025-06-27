@@ -13,6 +13,7 @@ public class EntityLifecycleDemo {
 
             // 🔹 INSERT 테스트
             Member member = new Member(1L, "지한");
+            Member member2 = new Member(2L, "지한");
             em.persist(member);
 
             // 🔹 UPDATE 테스트

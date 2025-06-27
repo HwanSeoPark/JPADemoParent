@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString // <-- 이 어노테이션은 사용하지 않기
 public class Member {
 
     @Id

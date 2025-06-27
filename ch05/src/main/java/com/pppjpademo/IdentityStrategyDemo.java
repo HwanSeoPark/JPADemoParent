@@ -23,3 +23,6 @@ public class IdentityStrategyDemo {
         }
     }
 }
+// 디버깅시 ID 값이 늘어나긴 하는데
+// Hibernate: 
+//     call next value for member_seq  <-- 이 쿼리가 안보임
