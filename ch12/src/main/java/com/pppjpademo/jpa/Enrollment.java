@@ -12,9 +12,11 @@ public class Enrollment {
     // @ManyToOne 애노테이션만 사용해도 JPA는 디폴트로 외래키 컬럼을 생성.
     // @JoinColumn은 선택사항이며, 외래키 컬럼의 이름 등을 커스터마이징할 때 사용.
     @ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(이름 설정)
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(이름 설정)
     private Course course;
 
     private LocalDate enrolledDate;

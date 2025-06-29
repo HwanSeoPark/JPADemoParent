@@ -26,9 +26,26 @@ public class OneToOneUniDirectionalTest {
             tx.commit();
 
             // ✅ 3. 영속성 컨텍스트 초기화 후 다시 조회
-            em.clear();
+            em.clear(); // 1차 캐시를 비운다...
             System.out.println("=== 재조회 시작 ===");
 
+            // eager 모드는 대부분 left outer join으로 owner 인스턴스에 해당하는 테이블의 row와
+            // owner 인스턴스의 자식 테이블의 row의 정보를 동시에 가져옴
+            /*
+             select
+        		person0_.id as id1_1_0_,
+        		person0_.name as name2_1_0_,
+        		person0_.address_id as address_3_1_0_,
+        		passport1_.id as id1_0_1_,
+        		passport1_.number as number2_0_1_ 
+    		from
+        		persons person0_ 
+    		left outer join
+        		passports passport1_ 
+            	on person0_.address_id=passport1_.id 
+    		where
+        		person0_.id=?
+             */
             Person foundPerson = em.find(Person.class, person.getId());
             System.out.println("👤 이름: " + foundPerson.getName());
             System.out.println("🪪 여권번호: " + foundPerson.getPassport().getNumber());

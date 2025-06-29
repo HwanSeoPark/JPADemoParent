@@ -2,9 +2,10 @@ package com.pppjpademo.jpa;
 
 import javax.persistence.*;
 
-public class OneToOneBiDirectionalTest  {
+public class OneToOneBiDirectionalTest {
 
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+    private static final EntityManagerFactory emf = 
+    		Persistence.createEntityManagerFactory("hello");
 
     public static void main(String[] args) {
         saveTest();                  // ✅ 저장 테스트
@@ -25,12 +26,12 @@ public class OneToOneBiDirectionalTest  {
         try {
             tx.begin();
 
-            Citizen citizen = new Citizen("홍길동");
-            Passport passport = new Passport("P-11223344");
+            User user = new User("홍길동");
+            UserProfile userprofile = new UserProfile("P-11223344");
 
-            citizen.setPassport(passport); // ✅ 편의 메서드로 양방향 설정
-
-            em.persist(citizen); // CascadeType.ALL → passport 자동 persist
+            user.setUserProfile(userprofile);// ✅ 편의 메서드로 양방향 설정
+            
+            em.persist(user); // CascadeType.ALL → userprofile 자동 persist
 
             tx.commit();
             System.out.println("✅ 저장 완료");
@@ -49,11 +50,11 @@ public class OneToOneBiDirectionalTest  {
         EntityManager em = emf.createEntityManager();
 
         try {
-            Citizen found = em.createQuery("select c from Citizen c", Citizen.class)
+            User found = em.createQuery("select c from User c", User.class)
                                .getSingleResult();
 
-            System.out.println("👤 시민 이름: " + found.getName());
-            System.out.println("🪪 여권 번호: " + found.getPassport().getNumber());
+            System.out.println("👤 유저 이름: " + found.getUserName());
+            System.out.println("🪪 바이오: " + found.getUserProfile().getBio());
         } finally {
             em.close();
         }
@@ -66,11 +67,11 @@ public class OneToOneBiDirectionalTest  {
         EntityManager em = emf.createEntityManager();
 
         try {
-            Passport passport = em.createQuery("select p from Passport p", Passport.class)
+            UserProfile userprofile = em.createQuery("select p from UserProfile p", UserProfile.class)
                                   .getSingleResult();
 
-            System.out.println("🪪 여권 번호: " + passport.getNumber());
-            System.out.println("👤 소유 시민 이름: " + passport.getCitizen().getName());
+            System.out.println("🪪 바이오: " + userprofile.getBio());
+            System.out.println("👤 유저 이름: " + userprofile.getUser().getUserName());
         } finally {
             em.close();
         }
@@ -86,9 +87,9 @@ public class OneToOneBiDirectionalTest  {
         try {
             tx.begin();
 
-            Citizen citizen = em.createQuery("select c from Citizen c", Citizen.class)
+            User user = em.createQuery("select c from User c", User.class)
                                 .getSingleResult();
-            em.remove(citizen); // passport도 함께 삭제되어야 함
+            em.remove(user); // userprofile도 함께 삭제되어야 함
 
             tx.commit();
             System.out.println("🗑️ 삭제 완료");

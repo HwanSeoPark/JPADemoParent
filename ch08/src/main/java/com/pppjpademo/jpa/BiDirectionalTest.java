@@ -611,8 +611,12 @@ public class BiDirectionalTest {
             Order order = em.find(Order.class, 1L);
             // orderItems 컬렉션
             order.getOrderItems().stream()
+            		// 필터링 : OrderItem의 필드 product의 이름이 'HDD'인 엘리먼트만,
                     .filter(item -> item.getProduct().equals("HDD"))
-                    .findFirst() // HDD가 있는 애들중 가장 처음 인덱스 애를 쓰겠다
+                    // 필터링 결과중에, 가장 작은 인덱스 값을 가지는 엘리먼트만
+                    .findFirst()
+                    // 만약 이러한 조건에 부합하는 엘리먼트가 있다면
+                    // 다음 람다식을 적용함
                     .ifPresent(item -> item.setQuantity(item.getQuantity() + 1)); // HDD가 있으면 이 메서드 실행, 없으면 실행 안함
             		
             
@@ -633,6 +637,8 @@ public class BiDirectionalTest {
             Order order = em.find(Order.class, 1L);
             List<OrderItem> toRemove = order.getOrderItems().stream()
                     .filter(item -> item.getQuantity() <= 1)
+                    // filter 연산 결과에 부합하는 스트림 엘리먼트들을 
+                    // 리스트 컬렉션으로 제공함.
                     .toList();
 
             toRemove.forEach(order::removeItem); // orphanRemoval로 DB에서도 삭제됨
@@ -673,7 +679,9 @@ public class BiDirectionalTest {
 
             // 기존 Order 엔티티 조회 (이름으로 조회 또는 ID 기반으로 해도 됨)
             TypedQuery<Order> query = em.createQuery("SELECT o FROM Order o WHERE o.customer = :name", Order.class);
+           
             Order devTeam = query.setParameter("name", "개발팀").getSingleResult();
+            
             Order designTeam = em.createQuery("SELECT o FROM Order o WHERE o.customer = :name", Order.class)
                                   .setParameter("name", "디자인팀")
                                   .getSingleResult();
