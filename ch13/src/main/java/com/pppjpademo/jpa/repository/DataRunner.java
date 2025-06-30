@@ -85,7 +85,7 @@ public class DataRunner {
 
     private void groupByHavingExample() {
         System.out.println("\n✅ [GROUP BY + HAVING] 회원별 총 수량 >= 3:");
-        String jpql = "SELECT new com.intheeast.jpa.dto.MemberOrderStats(m.name, SUM(o.quantity)) FROM Order o JOIN o.member m GROUP BY m.name HAVING SUM(o.quantity) >= 3";
+        String jpql = "SELECT new com.pppjpademo.jpa.dto.MemberOrderStats(m.name, SUM(o.quantity)) FROM Order o JOIN o.member m GROUP BY m.name HAVING SUM(o.quantity) >= 3";
         List<MemberOrderStats> result = em.createQuery(jpql, MemberOrderStats.class).getResultList();
         result.forEach(System.out::println);
     }

@@ -22,6 +22,8 @@ public class Order {
     private String customerName;
 
     // 🔹 단방향 OneToMany - 외래키는 OrderItem에 존재하지만 관리 주체는 Order
+    // : 외래키는 OrderItem 테이블에 있는데, Order가 관리를 하기 때문에 이 연관 관계는 모두가 극혐함
+    //   사용하지 말것!!!
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id") // OrderItem 테이블에 FK 생성
     /*

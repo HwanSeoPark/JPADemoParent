@@ -81,7 +81,7 @@ public class ManyToManyBiDirectionalTest {
         			student_course courses0_ 
     			 inner join
                     Course course1_ 
-            			on courses0_.course_id=course1_.id 
+            		 	on courses0_.course_id=course1_.id 
     			  where
         			courses0_.student_id=?
                  */
@@ -118,7 +118,6 @@ public class ManyToManyBiDirectionalTest {
                                 .getSingleResult();
 
             // 수강 과목 하나 제거
-            
             ////////////////////////////////////////////////////////
             // 학생이 몇 개의 과목을 수강한지가 중요한 것이 아니라,
             // 단지 한 과목만 삭제하기 위해서 for looping을 할 필요가 없기 때문에!!!

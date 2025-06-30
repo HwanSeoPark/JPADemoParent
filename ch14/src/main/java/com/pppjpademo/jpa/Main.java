@@ -29,8 +29,8 @@ public class Main {
             em.persist(new User(email, name, phone, city, job, birth));
 
             if (i % 1000 == 0) {
-                em.flush();
-                em.clear();
+                em.flush(); // 데이타베이스 테이블에 인설트하기 위해서 플러시
+                em.clear(); // 1차 캐시는 사이즈가 정해져 있어서 한번씩 비워주는 역할
             }
         }
 
