@@ -3,7 +3,7 @@
 
     <persistence-unit name="hello">
 
-	<!-- <class>com.intheeast.jpabook.Member</class> -->
+	<!-- <class>com.pppjpademo.jpabook.Member</class> -->
 
         <properties>
 
